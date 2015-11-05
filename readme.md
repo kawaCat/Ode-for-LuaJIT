@@ -46,8 +46,8 @@ ode.dSpaceCollide(space,nil,cb);
 cb:free();
 ```
 
-![contact.png](image\test_contact.PNG "contact.png")
+![contact.png](image/test_contact.PNG "contact.png")
 
-![congeomtact.png](image\test_geom.PNG "test_geom.png")
+![congeomtact.png](image/test_geom.PNG "test_geom.png")
 
-![joint.png](image\test_joint.PNG "test_joint.png")
+![joint.png](image/test_joint.PNG "test_joint.png")
