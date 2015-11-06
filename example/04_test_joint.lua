@@ -47,7 +47,7 @@ function nearCallback(data,  o1, o2)
         for i = 0,n-1
         do
             contact[i].surface.mode = ode.dContactBounce;
-            contact[i].surface.mu   = 0.0 --dInfinity;
+            contact[i].surface.mu   = (1.0/0.0) -- inf(dInfinity);
             contact[i].surface.bounce     = 1.0; -- (0.0~1.0) restitution parameter
             contact[i].surface.bounce_vel = 0.0; -- minimum incoming velocity for bounce
             local c = ode.dJointCreateContact(world,contactgroup,contact[i]);
@@ -86,7 +86,6 @@ function simLoop (pause)
     -- ds.dsDrawCapsule(pos2,R2,pole.length,pole.radius);
     --================================================================
     ds.dsDrawCapsuleD(pos2,R2,pole.length,pole.radius);
-
 end
 --====================================================================
 
@@ -142,7 +141,6 @@ function createBallAndPole()
     ode.dJointAttach(joint, ball.body,pole.body);
     ode.dJointSetHingeAnchor(joint, x0, y0, z0 - ball.radius);
     ode.dJointSetHingeAxis(joint, 1, 0, 0);
-
 end
 --====================================================================
 

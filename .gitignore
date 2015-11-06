@@ -14,10 +14,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+*.chw
 # Windows shortcuts
 *.lnk
 _closed/*.*
 _closed/*
+textures/*.*
+textures/*
+
 
 # =========================
 # Operating System Files

@@ -25,80 +25,6 @@ local box       = { body=nil }
 local capsule   = { body=nil }
 local cylinder = { body=nil }
 
-
-function createFpsLimit()
-    --================================================================
-    local FpsLimit ={}
-    FpsLimit.fps =0
-    FpsLimit._fpsTable ={}
-    FpsLimit.avgCount =60
-    FpsLimit.lastTime =  os.clock()*1000
-    --================================================================
-
-    ------------------------------------------------------------------
-    -- getFps
-    ------------------------------------------------------------------
-    function FpsLimit:getFps()
-        local sumFps = 0
-        for i,v in ipairs(self._fpsTable)
-        do
-            sumFps =sumFps+v;
-        end
-        return sumFps/self.avgCount
-    end
-    --================================================================
-
-    ------------------------------------------------------------------
-    -- limit FPS
-    -- @tparam int limitFps
-    ------------------------------------------------------------------
-    function FpsLimit:limitFps(limitFps)
-        --============================================================
-        local nowTime = os.clock()*1000
-        --============================================================
-        local distanceTime = nowTime -self.lastTime
-        local targetTime =1000/limitFps
-        local sleepTime_W = targetTime - distanceTime
-        --============================================================
-        if ( sleepTime_W >0 )
-        then
---            DxLib.dx_WaitTimer( sleepTime_W)
-            self:sleep(sleepTime_W/1000)
-        end
-        --============================================================
-        local waitedTime =  os.clock()*1000
-        self.fps = 1000/(waitedTime -self.lastTime)
-        self.lastTime = waitedTime
-        --============================================================
-        table.insert ( self._fpsTable,self.fps);
-        table.remove ( self._fpsTable,1);
-        --============================================================
-    end
-    --================================================================
-
-    --================================================================
-    function FpsLimit:sleep(n)  -- seconds
-        local t0 = os.clock()
-        while os.clock() - t0 <= n do end
-    end
-    --================================================================
-    function FpsLimit:_initFpsTable()
-        for i=1,self.avgCount
-        do
-            table.insert ( self._fpsTable,0);
-        end
-    end
-    --================================================================
-
-    --================================================================
-    FpsLimit:_initFpsTable();
-    --================================================================
-    return FpsLimit;
-end
---====================================================================
-
-local fpsLimit = createFpsLimit();
-
 -- drawstuff start func
 --====================================================================
 function start()
@@ -115,7 +41,6 @@ function start()
     ds.dsSetViewpoint (xyz,hpr);
 end
 --====================================================================
-
 
 -- drawstuff simlation loop func
 --====================================================================
@@ -159,8 +84,6 @@ function simLoop (pause)
     posB[1] = 5;
     posB[2] = 1.9;
     ds.dsDrawLineD(posA,posB);
-
-    fpsLimit:limitFps(60)
 end
 --====================================================================
 

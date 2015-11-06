@@ -42,7 +42,7 @@ function nearCallback(data,  o1, o2)
     for i = 0,n-1
     do
         contact[i].surface.mode = ode.dContactBounce;
-        contact[i].surface.mu   = 0.0 --dInfinity;
+        contact[i].surface.mu   = (1.0/0.0) -- inf(dInfinity);
         contact[i].surface.bounce     = 0.0; -- (0.0~1.0) restitution parameter
         contact[i].surface.bounce_vel = 0.0; -- minimum incoming velocity for bounce
         local c = ode.dJointCreateContact(world,contactgroup,contact[i]);

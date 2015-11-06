@@ -51,7 +51,8 @@ ffi.cdef
     {
         void* _Placeholder;
     } FILE;
-
+   
+    
     // dInfinity   ((float)(1.0/0.0))
     enum
     {
@@ -135,7 +136,8 @@ typedef enum {
   dJointTypeTransmission,
 } dJointType;
 
-//====================================================================
+
+//??
 // enum {
 //   D_ALL_PARAM_NAMES(0)
 //   dParamsInGroup,     /* < Number of parameter in a group */
@@ -148,6 +150,74 @@ typedef enum {
 //    */
 //   dParamGroup=0x100
 // };
+//====================================================================
+enum
+{
+dParamLoStop         = 0,
+dParamHiStop         ,
+dParamVel            ,
+dParamLoVel          ,
+dParamHiVel          ,
+dParamFMax           ,
+dParamFudgeFactor    ,
+dParamBounce         ,
+dParamCFM            ,
+dParamStopERP        ,
+dParamStopCFM        ,
+dParamSuspensionERP  ,
+dParamSuspensionCFM  ,
+dParamERP            ,
+//====================================================================
+dParamsInGroup,
+//====================================================================
+//dParamGroup         = 0x000 ,
+dParamLoStop1         = 0x000 ,
+dParamHiStop1         ,
+dParamVel1            ,
+dParamLoVel1          ,
+dParamHiVel1          ,
+dParamFMax1           ,
+dParamFudgeFactor1    ,
+dParamBounce1         ,
+dParamCFM1            ,
+dParamStopERP1        ,
+dParamStopCFM1        ,
+dParamSuspensionERP1  ,
+dParamSuspensionCFM1  ,
+dParamERP1            ,
+//dParamGroup         = 0x100 ,
+dParamLoStop2         = 0x100 ,
+dParamHiStop2         ,
+dParamVel2            ,
+dParamLoVel2          ,
+dParamHiVel2          ,
+dParamFMax2           ,
+dParamFudgeFactor2    ,
+dParamBounce2         ,
+dParamCFM2            ,
+dParamStopERP2        ,
+dParamStopCFM2        ,
+dParamSuspensionERP2  ,
+dParamSuspensionCFM2  ,
+dParamERP2            ,
+//dParamGroup         = 0x200 ,
+dParamLoStop3         = 0x200 ,
+dParamHiStop3         ,
+dParamVel3            ,
+dParamLoVel3          ,
+dParamHiVel3          ,
+dParamFMax3           ,
+dParamFudgeFactor3    ,
+dParamBounce3         ,
+dParamCFM3            ,
+dParamStopERP3        ,
+dParamStopCFM3        ,
+dParamSuspensionERP3  ,
+dParamSuspensionCFM3  ,
+dParamERP3            ,
+//====================================================================
+dParamGroup=0x100
+};
 //====================================================================
 
 /* angular motor mode numbers */
@@ -207,17 +277,17 @@ void dCloseODE(void);
 ffi.cdef(
 [[
 enum {
-  dContactMu2      = 0x001,      /**< Use axis dependent friction */
+  dContactMu2     = 0x001,      /**< Use axis dependent friction */
   dContactAxisDep = 0x001,      /**< Same as above */
-  dContactFDir1      = 0x002,      /**< Use FDir for the first friction value */
+  dContactFDir1   = 0x002,      /**< Use FDir for the first friction value */
   dContactBounce  = 0x004,      /**< Restore collision energy anti-parallel to the normal */
   dContactSoftERP = 0x008,      /**< Don't use global erp for penetration reduction */
   dContactSoftCFM = 0x010,      /**< Don't use global cfm for penetration constraint */
   dContactMotion1 = 0x020,      /**< Use a non-zero target velocity for the constraint */
   dContactMotion2 = 0x040,
   dContactMotionN = 0x080,
-  dContactSlip1      = 0x100,      /**< Force-dependent slip. */
-  dContactSlip2      = 0x200,
+  dContactSlip1   = 0x100,      /**< Force-dependent slip. */
+  dContactSlip2   = 0x200,
   dContactRolling = 0x400,      /**< Rolling/Angular friction */
 
   dContactApprox0   = 0x0000,
@@ -1075,8 +1145,8 @@ int dCollide (dGeomID o1, dGeomID o2, int flags, dContactGeom *contact,int skip)
 
 //void dSpaceCollide (dSpaceID space, void *data, dNearCallback *callback);
 //void dSpaceCollide2 (dGeomID space1, dGeomID space2, void *data, dNearCallback *callback);
-void dSpaceCollide (dSpaceID space, void *data, void *callback);
-void dSpaceCollide2 (dGeomID space1, dGeomID space2, void *data, void *callback);
+void dSpaceCollide (dSpaceID space, void *data, dNearCallback callback);
+void dSpaceCollide2 (dGeomID space1, dGeomID space2, void *data,dNearCallback callback);
 //====================================================================
 enum
 {
