@@ -3,6 +3,7 @@
 local ffi = require "ffi"
 --====================================================================
 
+-- cant luajit single ?
 local USE_ODE_DOUBLE = true
 --====================================================================
 -- ode.config ???
@@ -45,19 +46,14 @@ ffi.cdef
     typedef unsigned short  duint16;
     typedef signed char     dint8;
     typedef unsigned char   duint8;
-
+    //================================================================
     // ???
     typedef struct _iobuf
     {
         void* _Placeholder;
     } FILE;
-   
-    
+    //================================================================
     // dInfinity   ((float)(1.0/0.0))
-    enum
-    {
-        dInfinity =0
-    };
 ]]
 --====================================================================
 
@@ -1375,6 +1371,7 @@ if ( USE_ODE_DOUBLE ==true )
 then
     return  ffi.load("ode_double.dll");
 else
+    print("call-single")
     return  ffi.load("ode_single.dll");
 end
 --====================================================================

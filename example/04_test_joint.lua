@@ -2,8 +2,8 @@
 --====================================================================
 local ffi =require"ffi"
 --====================================================================
-local ds =require "drawstuff"
 local ode = require "ode_ffi"
+local ds =require "drawstuff"
 --====================================================================
 local world = nil;-- world
 local space  =nil --space;

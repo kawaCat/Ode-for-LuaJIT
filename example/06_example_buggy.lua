@@ -2,8 +2,8 @@
 --====================================================================
 local ffi =require"ffi"
 --====================================================================
-local ds =require "drawstuff"
 local ode = require "ode_ffi"
+local ds =require "drawstuff"
 --====================================================================
 -- for ode state save
 --====================================================================
@@ -13,8 +13,7 @@ ffi.cdef(
     int fclose ( FILE * stream );    
 ]])
 --====================================================================
-local FLOAT_EPSILON =1.1920928955078125e-07
-local DOUBLE_EPSILON =2.22044604925031308e-16
+
 --====================================================================
 local LENGTH =0.7    -- chassis length
 local WIDTH  =0.5    -- chassis width
@@ -153,14 +152,14 @@ function simLoop (pause)
     --================================================================
     ds.dsSetColor (0,1,1);
     ds.dsSetTexture (ds.DS_WOOD);
-    local sides =ffi.new("double[3]",LENGTH,WIDTH,HEIGHT);
+    local sides =ffi.new("dReal[3]",LENGTH,WIDTH,HEIGHT);
     ds.dsDrawBoxD (ode.dBodyGetPosition(body[0]),ode.dBodyGetRotation(body[0]),sides);
     ds.dsSetColor (1,1,1);
     --================================================================
     for i=1, 3 
     do
         ds.dsDrawCylinderD (ode.dBodyGetPosition(body[i]),
-                            ode.dBodyGetRotation(body[i]),0.02,RADIUS);
+                        ode.dBodyGetRotation(body[i]),0.02,RADIUS);
     end 
     --================================================================
     local ss = ffi.new("dVector3[1]");
@@ -234,8 +233,6 @@ end
 
 --====================================================================
 function main ()
-    --================================================================
-    ode.dInitODE();
     --================================================================
     --drawstuff function struct
     local func = ffi.new("dsFunctions[1]");
