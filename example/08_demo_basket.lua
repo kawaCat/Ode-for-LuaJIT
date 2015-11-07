@@ -1,8 +1,16 @@
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
+--====================================================================
+local RADIUS = 0.14
+local world=nil;
+local space=nil;
+local contactgroup=nil;
+local sphbody=nil;
+local sphgeom=nil;
+local world_mesh=nil;
 --====================================================================
 
 --from bascket_geom.h (ode demo)
@@ -40,14 +48,6 @@ do
 end 
 --====================================================================
 
-local RADIUS = 0.14
-
-local world=nil;
-local space=nil;
-local contactgroup=nil;
-local sphbody=nil;
-local sphgeom=nil;
-local world_mesh=nil;
 
 --====================================================================
 function start()
@@ -58,8 +58,6 @@ function start()
     local hpr = ffi.new("float[3]",0.0,-29.5000,0.0000);
     ds.dsSetViewpoint (xyz,hpr);
 end
---====================================================================
-
 --====================================================================
 function nearCallback (data, o1, o2)
     --================================================================
@@ -94,8 +92,6 @@ function nearCallback (data, o1, o2)
     end
 end
 --====================================================================
-
---====================================================================
 function nearCallback_checkSpace(data,o1,o2)
     if(    ode.dGeomIsSpace( o1 ) ~=0 
         or ode.dGeomIsSpace( o2 ) ~=0)
@@ -120,8 +116,6 @@ function nearCallback_checkSpace(data,o1,o2)
     end 
 end 
 --====================================================================
-
---====================================================================
 function reset_ball()
     local sx=0.0;
     local sy=3.40;
@@ -135,17 +129,12 @@ function reset_ball()
     ode.dBodySetAngularVel(sphbody, 0,0,0);
 end
 --====================================================================
-
---====================================================================
 function command (cmd)
     if (cmd == string.byte' ' )
     then 
         reset_ball();
     end
 end 
---====================================================================
-
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
     --================================================================
@@ -206,8 +195,6 @@ function simLoop (pause)
     end
     --================================================================
 end
---====================================================================
-
 --====================================================================
 function main ()
     --================================================================

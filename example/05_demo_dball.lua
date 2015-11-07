@@ -1,27 +1,24 @@
-
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 local ode = require "ode_ffi"
 --====================================================================
-local world = nil;-- world
-local space  =nil --space;
-local ground  =nil --space;
-local contactgroup =nil;
+local world  = nil;-- world
+local space  = nil --space;
+local ground = nil --space;
+local contactgroup = nil;
 local flag = 0;
 --====================================================================
-local body1 =  nil
-local body2 =  nil
+local body1  = nil
+local body2  = nil
 local joint1 = nil --
 local joint2 = nil
 --====================================================================
 local t = 0;
 
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
-    -- print (pause )
     --================================================================
     if (pause == 0 ) -- pause==1 : pause
     then
@@ -70,9 +67,6 @@ function simLoop (pause)
     ds.dsDrawLineD(a21[0], a22[0]);
 end
 --====================================================================
-
--- drawstuff start func
---====================================================================
 function start()
     
     world = ode.dWorldCreate();
@@ -116,14 +110,10 @@ function start()
     ds.dsSetViewpoint (xyz,hpr);
 end
 --====================================================================
-
---====================================================================
 function stop()
     ode.dSpaceDestroy(space);
     ode.dWorldDestroy(world);
 end 
---====================================================================
-
 --====================================================================
 function drawGeom( g)
     --================================================================
@@ -147,8 +137,6 @@ function drawGeom( g)
     end 
     --================================================================
 end 
---====================================================================
-
 --====================================================================
 function main ()
     --================================================================

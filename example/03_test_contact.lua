@@ -1,27 +1,24 @@
 
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
-local world = nil;-- world
-local space  =nil --space;
-local ground  =nil --space;
-local contactgroup =nil;
+local world  = nil;-- world
+local space  = nil --space;
+local ground = nil --space;
+local contactgroup = nil;
 local flag = 0;
 
 local radius = 0.2;
-local mass = 1.0;  --(kg)
+local mass   = 1.0;  --(kg)
 
 local ball =
 {
      body = nil -- body
-    ,geom ==nil -- geom
+    ,geom = nil -- geom
 };
---====================================================================
-
--- contact callback func
 --====================================================================
 function nearCallback(data,  o1, o2)
     local N = 10;
@@ -52,7 +49,6 @@ function nearCallback(data,  o1, o2)
     end
     --================================================================
 end
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
 
@@ -81,9 +77,6 @@ function simLoop (pause)
 
 end
 --====================================================================
-
--- drawstuff start func
---====================================================================
 function start()
     local xyz = ffi.new("float[3]");
     xyz[0] =  0.0;
@@ -96,8 +89,6 @@ function start()
     --================================================================
     ds.dsSetViewpoint (xyz,hpr);
 end
---====================================================================
-
 --====================================================================
 function main ()
 

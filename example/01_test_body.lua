@@ -1,14 +1,13 @@
-
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
-local world = nil;-- world
-local ball = nil ;-- body
+local world  = nil; -- world
+local ball   = nil; -- body
 local radius = 0.2;
-local mass = 1.0;  --(kg)
+local mass   = 1.0; --(kg)
 
 -- drawstuff simlation loop func
 --====================================================================

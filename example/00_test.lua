@@ -1,9 +1,9 @@
 
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
 
 -- drawstuff simlation loop func

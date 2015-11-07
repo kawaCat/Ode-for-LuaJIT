@@ -1,18 +1,17 @@
 
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
-local world = nil;-- world
-local space  =nil --space;
-local ground  =nil --space;
-local contactgroup =nil;
+local world  = nil;-- world
+local space  = nil --space;
+local ground = nil --space;
+local contactgroup = nil;
 local flag = 0;
 
-
-local joint =nil --
+local joint = nil --
 --====================================================================
 local ball =
 {
@@ -20,20 +19,17 @@ local ball =
     , geom = nil -- geom
     , radius =0
     , length =0
-    , mass    =0
+    , mass   =0
 };
 --====================================================================
 local pole =
 {
       body = nil -- body
     , geom = nil -- geom
-    , radius=0
-    , length=0
-    , mass=0
+    , radius = 0
+    , length = 0
+    , mass   = 0
 };
---====================================================================
-
--- contact callback func
 --====================================================================
 function nearCallback(data,  o1, o2)
     local N = 10;
@@ -58,7 +54,6 @@ function nearCallback(data,  o1, o2)
         --============================================================
     end
 end
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
 
@@ -88,9 +83,6 @@ function simLoop (pause)
     ds.dsDrawCapsuleD(pos2,R2,pole.length,pole.radius);
 end
 --====================================================================
-
--- drawstuff start func
---====================================================================
 function start()
     local xyz = ffi.new("float[3]");
     xyz[0] =  0.0;
@@ -103,8 +95,6 @@ function start()
     --================================================================
     ds.dsSetViewpoint (xyz,hpr);
 end
---====================================================================
-
 --====================================================================
 function createBallAndPole()
     -- ball Position
@@ -142,8 +132,6 @@ function createBallAndPole()
     ode.dJointSetHingeAnchor(joint, x0, y0, z0 - ball.radius);
     ode.dJointSetHingeAxis(joint, 1, 0, 0);
 end
---====================================================================
-
 --====================================================================
 function main ()
     --================================================================

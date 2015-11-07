@@ -1,21 +1,20 @@
-
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
 
 local radius = 0.25;
 local length = 1.0;
-local sides =ffi.new("double[3]")
+local sides  = ffi.new("double[3]")
 sides[0]=0.5
 sides[1]=0.5
 sides[2]=1.0
 
 local world = nil;-- world
-local ball = nil ;-- body
-local mass = 1.0;  --(kg)
+local ball  = nil;-- body
+local mass  = 1.0;  --(kg)
 
 local DENSITY  = (5.0)
 
@@ -25,7 +24,6 @@ local box       = { body=nil }
 local capsule   = { body=nil }
 local cylinder = { body=nil }
 
--- drawstuff start func
 --====================================================================
 function start()
     --camera
@@ -40,9 +38,6 @@ function start()
     --================================================================
     ds.dsSetViewpoint (xyz,hpr);
 end
---====================================================================
-
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
 
@@ -85,8 +80,6 @@ function simLoop (pause)
     posB[2] = 1.9;
     ds.dsDrawLineD(posA,posB);
 end
---====================================================================
-
 --====================================================================
 function main ()
 

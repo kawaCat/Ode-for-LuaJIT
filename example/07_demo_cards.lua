@@ -1,9 +1,9 @@
 
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
 
 --====================================================================
@@ -53,13 +53,9 @@ function createCard()
     return Card;
 end 
 --====================================================================
-
---====================================================================
 function getNCards(levels)
     return ((3*levels*levels) + levels) / 2;
 end
---====================================================================
-
 --====================================================================
 function place_cards()
     --================================================================
@@ -169,35 +165,20 @@ function nearCallback (data, o1, o2)
     --================================================================
 end   
 --====================================================================
-
---====================================================================
--- determines whether a space
--- from.
--- http://so-zou.jp/robot/tech/physics-engine/ode/collision-detection/sample-code.htm
---====================================================================
 function nearCallBack_checkSpace(data,o1,o2)
-    -- google translate.
-    -- o1, one of o2 determines whether a space .
     if(    ode.dGeomIsSpace( o1 ) ~=0 
         or ode.dGeomIsSpace( o2 ) ~=0)
     then 
-        -- o1, o2 also in consideration is a different space , and
-        -- performs collision detection.
         local callBack = ffi.cast ( "dNearCallback",nearCallback)
         ode.dSpaceCollide2( o1, o2, data, callBack);
-        
         --============================================================
         if( ode.dGeomIsSpace( o1 ) ~=0 )
         then
-            -- if o1 is space , and
-            -- the collision detection to target all of the geometry contained therein
             ode.dSpaceCollide(ode.dGeomGetSpace(o1), data, callBack );
         end
         --============================================================
         if( ode.dGeomIsSpace( o2 ) ~=0 )
         then
-            -- if o2 is space , and
-            -- the collision detection to target all of the geometry contained therein
             ode.dSpaceCollide( ode.dGeomGetSpace(o2), data, callBack );
         end 
         --============================================================
@@ -206,9 +187,6 @@ function nearCallBack_checkSpace(data,o1,o2)
         nearCallback (data, o1, o2);
     end 
 end 
---====================================================================
-
--- drawstuff simlation loop func
 --====================================================================
 function simLoop (pause)
     --================================================================
@@ -232,9 +210,6 @@ function simLoop (pause)
     --================================================================
 end
 --====================================================================
-
--- drawstuff start func
---====================================================================
 function start()
     print ([[
     Controls:
@@ -244,9 +219,6 @@ function start()
     ]]);
 end
 --====================================================================
-
---====================================================================
--- called when a key pressed
 function command (cmd)
     --================================================================
     if (   cmd == string.byte'=' )
@@ -268,8 +240,6 @@ function command (cmd)
     end
     --================================================================
 end 
---====================================================================
-
 --====================================================================
 function main ()
     --================================================================

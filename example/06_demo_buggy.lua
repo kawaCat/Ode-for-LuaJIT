@@ -1,9 +1,9 @@
 
 --====================================================================
-local ffi =require"ffi"
+local ffi = require"ffi"
 --====================================================================
 local ode = require "ode_ffi"
-local ds =require "drawstuff"
+local ds  = require "drawstuff"
 --====================================================================
 -- for ode state save
 --====================================================================
@@ -25,18 +25,18 @@ local WMASS  =0.2    -- wheel mass
 --====================================================================
 -- dynamics and collision objects (chassis, 3 wheels, environment)
 local world = nil;-- world
-local space  =nil --space;
-local car_space=nil;
-local body={};
-local joint={};    -- joint[0] is the front wheel
-local contactgroup =nil;
-local ground=nil;
-local box={};
-local sphere={};
-local ground_box=nil;
+local space = nil --space;
+local car_space = nil;
+local body = {};
+local joint = {};    -- joint[0] is the front wheel
+local contactgroup = nil;
+local ground = nil;
+local box = {};
+local sphere = {};
+local ground_box = nil;
 --====================================================================
-local speed=0
-local steer=0;    -- user commands
+local speed = 0
+local steer = 0;   
 
 --====================================================================
 function nearCallback (data, o1, o2)
@@ -116,9 +116,6 @@ function nearCallBack_checkSpace(data,o1,o2)
     end 
 end 
 --====================================================================
-
--- drawstuff simlation loop func
---====================================================================
 function simLoop (pause)
     
     if (pause == 0 ) -- pause==1 : pause
@@ -169,9 +166,6 @@ function simLoop (pause)
     --================================================================
 end
 --====================================================================
-
--- drawstuff start func
---====================================================================
 function start()
     
     ode.dAllocateODEDataForThread(ode.dAllocateMaskAll);
@@ -191,7 +185,6 @@ function start()
      '1' to save the current state to 'state.dif'.]]);
 end
 --====================================================================
--- called when a key pressed
 function command (cmd)
     if (   cmd == string.byte'a' 
         or cmd == string.byte'A' )
@@ -230,8 +223,6 @@ function command (cmd)
         print("save file as state.dif");
     end
 end 
---====================================================================
-
 --====================================================================
 function main ()
     --================================================================
