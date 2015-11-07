@@ -5,17 +5,6 @@ local ffi =require"ffi"
 local ode = require "ode_ffi"
 local ds =require "drawstuff"
 --====================================================================
-local world = nil;-- world
-local space  =nil  --space;
-local ground  =nil --space;
-local contactgroup =nil;
-local flag = 0;
---====================================================================
-local body1 =  nil
-local body2 =  nil
-local joint1 = nil --
-local joint2 = nil
---====================================================================
 
 -- drawstuff simlation loop func
 --====================================================================

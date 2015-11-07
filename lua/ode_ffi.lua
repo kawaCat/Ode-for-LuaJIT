@@ -1345,6 +1345,8 @@ dTriRayCallback* dGeomTriMeshGetRayCallback(dGeomID g);
 void dGeomTriMeshSetTriMergeCallback(dGeomID g, dTriTriMergeCallback* Callback);
 dTriTriMergeCallback* dGeomTriMeshGetTriMergeCallback(dGeomID g);
 dGeomID dCreateTriMesh(dSpaceID space, dTriMeshDataID Data, dTriCallback* Callback, dTriArrayCallback* ArrayCallback, dTriRayCallback* RayCallback);
+dGeomID dCreateTriMesh(dSpaceID space, dTriMeshDataID Data, dTriCallback* Callback, dTriArrayCallback* ArrayCallback, dTriRayCallback* RayCallback);
+
 void dGeomTriMeshSetData(dGeomID g, dTriMeshDataID Data);
 dTriMeshDataID dGeomTriMeshGetData(dGeomID g);
 void dGeomTriMeshEnableTC(dGeomID g, int geomClass, int enable);

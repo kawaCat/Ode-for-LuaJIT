@@ -18,6 +18,7 @@ local cwidth=.5
 local cthikness=.02
 local clength=1;
 local cards ={};
+--====================================================================
 
 --====================================================================
 function createCard()
@@ -47,7 +48,7 @@ function createCard()
                       ode.dBodyGetRotation(self.body), self.sides);
     end
     --================================================================
-    Card:init()
+    Card:init();
     --================================================================
     return Card;
 end 
@@ -61,7 +62,7 @@ end
 
 --====================================================================
 function place_cards()
-    
+    --================================================================
     ncards = getNCards(levels);
     
     -- destroy removed cards
@@ -143,7 +144,6 @@ function place_cards()
 end
 --====================================================================
 
-
 --====================================================================
 function nearCallback (data, o1, o2)
     -- exit without doing anything if the two bodies are connected by a joint
@@ -176,28 +176,29 @@ end
 -- http://so-zou.jp/robot/tech/physics-engine/ode/collision-detection/sample-code.htm
 --====================================================================
 function nearCallBack_checkSpace(data,o1,o2)
-    
-    -- nice google translate.
+    -- google translate.
     -- o1, one of o2 determines whether a space .
-    if( ode.dGeomIsSpace( o1 ) or  ode.dGeomIsSpace( o2 ) )
+    if(    ode.dGeomIsSpace( o1 ) ~=0 
+        or ode.dGeomIsSpace( o2 ) ~=0)
     then 
         -- o1, o2 also in consideration is a different space , and
         -- performs collision detection.
         local callBack = ffi.cast ( "dNearCallback",nearCallback)
         ode.dSpaceCollide2( o1, o2, data, callBack);
+        
         --============================================================
-        if( ode.dGeomIsSpace( o1 ) ==true )
+        if( ode.dGeomIsSpace( o1 ) ~=0 )
         then
             -- if o1 is space , and
             -- the collision detection to target all of the geometry contained therein
-            ode.dSpaceCollide( o1, data, callBack );
+            ode.dSpaceCollide(ode.dGeomGetSpace(o1), data, callBack );
         end
         --============================================================
-        if( ode.dGeomIsSpace( o2 )==true )
+        if( ode.dGeomIsSpace( o2 ) ~=0 )
         then
             -- if o2 is space , and
             -- the collision detection to target all of the geometry contained therein
-            ode.dSpaceCollide( o2, data, callBack );
+            ode.dSpaceCollide( ode.dGeomGetSpace(o2), data, callBack );
         end 
         --============================================================
         callBack:free(); -- free luajit ffi callback.
@@ -219,7 +220,6 @@ function simLoop (pause)
         callBack:free();
         --============================================================
         ode.dWorldQuickStep (world,0.01);
-         
         ode.dJointGroupEmpty (contactgroup);
         --============================================================
     end

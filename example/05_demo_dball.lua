@@ -16,6 +16,7 @@ local body2 =  nil
 local joint1 = nil --
 local joint2 = nil
 --====================================================================
+local t = 0;
 
 -- drawstuff simlation loop func
 --====================================================================
@@ -24,18 +25,18 @@ function simLoop (pause)
     --================================================================
     if (pause == 0 ) -- pause==1 : pause
     then
-        local t = 0;
-        local step = 0.01;
+        
+        local step = 0.005;
         local nsteps = 4;
         --============================================================
         for i=0,nsteps-1
         do
-            local f = math.sin(t)*10;
+            local f = math.sin(t*1.2)*0.8;
             ode.dBodyAddForceAtRelPos(body1,
                                       f, 0, 0, 
                                       0, 0, -0.5); -- at the lower end
 
-            local  g = math.sin(t)*5;
+            local  g = math.sin(t*0.7)*0.8;
             ode.dBodyAddForceAtRelPos(body2,
                                       0, g, 0, 
                                       0, 0, -0.5); -- at the lower end
