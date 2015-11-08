@@ -5,7 +5,7 @@ local ffi = require"ffi"
 local ode = require "ode_ffi"
 local ds  = require "drawstuff"
 --====================================================================
--- for ode state save
+-- for ode state save (not working)
 --====================================================================
 ffi.cdef(
 [[
@@ -190,10 +190,12 @@ function command (cmd)
         or cmd == string.byte'A' )
     then 
         speed =speed+ 0.3;
+        --============================================================
     elseif (   cmd == string.byte'z' 
             or cmd == string.byte'Z' )
     then 
         speed =speed- 0.3;
+        --============================================================
     elseif (cmd == string.byte',')
     then 
         steer = steer -0.5;
@@ -201,6 +203,7 @@ function command (cmd)
         then 
             steer = -1;
         end 
+        --============================================================
     elseif (cmd == string.byte'.'  )
     then 
         steer = steer +0.5;
@@ -208,19 +211,22 @@ function command (cmd)
         then 
             steer = 1;
         end 
+        --============================================================
     elseif (cmd == string.byte' '  )
     then 
         speed = 0;
         steer = 0;
+        --============================================================
     elseif (cmd == string.byte'1' )
     then 
-        local file  = ffi.C.fopen ("state.dif","wt");
-        if ( file ~=nil )
-        then 
-            ode.dWorldExportDIF (world,f,"");
-            ffi.C.fclose (file);
-        end 
-        print("save file as state.dif");
+        -- local file  = ffi.C.fopen ("state.dif","wt");
+        -- if ( file ~= nil )
+        -- then 
+        --     ode.dWorldExportDIF (world,file,"");
+        -- end 
+        -- ffi.C.fclose (file);
+        -- print("save file as state.dif");
+        --============================================================
     end
 end 
 --====================================================================

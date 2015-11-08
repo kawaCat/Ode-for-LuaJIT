@@ -49,6 +49,7 @@ end
 
 --====================================================================
 function nearCallBack_checkSpace(data,o1,o2)
+    --================================================================
     if(    ode.dGeomIsSpace( o1 ) ~=0 
         or ode.dGeomIsSpace( o2 ) ~=0)
     then 
@@ -69,6 +70,7 @@ function nearCallBack_checkSpace(data,o1,o2)
     else
         nearCallback (data, o1, o2);
     end 
+    --================================================================
 end 
 --====================================================================
 function simLoop (pause)
@@ -97,6 +99,7 @@ function simLoop (pause)
         ds.dsDrawBoxD(ode.dBodyGetPosition(body[i]),
                       ode.dBodyGetRotation(body[i]), sides);
     end 
+    --================================================================
 end
 --====================================================================
 function start()

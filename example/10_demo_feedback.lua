@@ -110,7 +110,7 @@ end
 
 -- from odemath.h. (has not export func)
 function dCalcVectorLength3(a)
-    return math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+    return math.sqrt((a[0] * a[0]) + (a[1] * a[1]) + (a[2] * a[2]));
 end
 --====================================================================
 

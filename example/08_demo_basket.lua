@@ -31,8 +31,8 @@ local world_indices =
 };
 --====================================================================
 local world_verticesD = ffi.new("double[?]",#world_vertices)
-local world_indicesD = ffi.new("dTriIndex[?]",#world_indices)
 local world_normalsD = ffi.new("double[?]",#world_normals)
+local world_indicesD = ffi.new("dTriIndex[?]",#world_indices)
 --====================================================================
 for i=0,#world_vertices-1
 do

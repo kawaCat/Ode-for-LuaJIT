@@ -31,7 +31,21 @@ function createCard()
         self.body = ode.dBodyCreate(world);
         self.geom = ode.dCreateBox(space, self.sides[0], self.sides[1], self.sides[2]);
         ode.dGeomSetBody(self.geom, self.body);
-        --ode.dGeomSetData(self.geom, self);
+        
+        --set userdata
+        --============================================================
+        local userdata = ffi.new("dReal[4]");
+        userdata[0] =12345  --test ID 
+        userdata[1] =4      --array size
+        userdata[2] =100+10 --,
+        userdata[3] =math.random() *100+100 --
+        --============================================================
+        local voidp = ffi.cast("void *",userdata);
+        ode.dGeomSetData(self.geom, voidp );
+        --============================================================
+        -- userdata_ =  ffi.cast("dReal*",voidp);
+        -- print (self,voidp,userdata_[0][0])
+        --============================================================
         local  mass = ffi.new("dMass[1]");
         ode.dMassSetBox(mass,1, self.sides[0], self.sides[1], self.sides[2]);
         ode.dBodySetMass(self.body, mass);
@@ -145,6 +159,17 @@ function nearCallback (data, o1, o2)
     -- exit without doing anything if the two bodies are connected by a joint
     local b1 = ode.dGeomGetBody(o1);
     local b2 = ode.dGeomGetBody(o2);
+    
+    
+    -- get userdata
+    --================================================================
+    -- local voidp = ode.dGeomGetData(o1);
+    -- userdata_ =  ffi.cast("dReal*",voidp);
+    -- if ( userdata_[0] ==12345) --test ID 
+    -- then 
+    --     -- userdata_[1] == array size
+    --     print (userdata_[0],userdata_[1],userdata_[2],userdata_[3])
+    -- end 
     --================================================================
     local MAX_CONTACTS = 8;
     local contact = ffi.new("dContact[?]",MAX_CONTACTS);

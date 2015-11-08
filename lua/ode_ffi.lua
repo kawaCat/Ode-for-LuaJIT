@@ -47,11 +47,21 @@ ffi.cdef
     typedef signed char     dint8;
     typedef unsigned char   duint8;
     //================================================================
-    // ???
-    typedef struct _iobuf
-    {
-        void* _Placeholder;
-    } FILE;
+    //???
+    
+    //struct _IO_FILE;
+    //typedef struct _IO_FILE FILE;
+    //================================================================
+    
+    //typedef struct _iobuf
+    //{
+    //   void* _Placeholder;
+    //} FILE;
+    //================================================================
+    
+    typedef void* FILE;
+    //================================================================
+  
     //================================================================
     // dInfinity   ((float)(1.0/0.0))
 ]]
