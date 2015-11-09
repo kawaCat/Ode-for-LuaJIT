@@ -49,16 +49,6 @@ ffi.cdef
     //================================================================
     //???
     
-    //struct _IO_FILE;
-    //typedef struct _IO_FILE FILE;
-    //================================================================
-    
-    //typedef struct _iobuf
-    //{
-    //   void* _Placeholder;
-    //} FILE;
-    //================================================================
-    
     typedef void* FILE;
     //================================================================
   
@@ -68,7 +58,13 @@ ffi.cdef
 --====================================================================
 
 --====================================================================
+-- memo
 -- dInfinity   ((float)(1.0/0.0))
+-- math.inf = (1.0/0.0)
+-- math.nan = (0.0/0.0)
+-- print ( math.inf == (1.0/0.0) ) -- true
+-- print ( math.nan == (0.0/0.0) ) -- false
+-- print ( tostring(math.nan) == tostring(0.0/0.0)) -- true
 
 --====================================================================
 if ( USE_ODE_DOUBLE ==true )
@@ -390,7 +386,15 @@ void dFree (void *ptr, size_t size);
 --====================================================================
 -- odemath.h ( has not export func )
 --====================================================================
-ffi.cdef([[ /* nothing */  ]])
+ffi.cdef(
+[[
+int  dSafeNormalize3 (dVector3 a);
+int  dSafeNormalize4 (dVector4 a);
+void dNormalize3 (dVector3 a); /* Potentially asserts on zero vec*/
+void dNormalize4 (dVector4 a); /* Potentially asserts on zero vec*/
+void dPlaneSpace (const dVector3 n, dVector3 p, dVector3 q);
+void dOrthogonalizeR(dMatrix3 m);
+]])
 --====================================================================
 
 --====================================================================
@@ -444,7 +448,7 @@ void dTimerStart (const char *description);    /* pass a static string here */
 void dTimerNow (const char *description);    /* pass a static string here */
 void dTimerEnd(void);
 
-void dTimerReport (FILE *fout, int average);
+//void dTimerReport (FILE *fout, int average);
 
 double dTimerTicksPerSecond(void);
 double dTimerResolution(void);
@@ -531,7 +535,7 @@ unsigned long  dRandGetSeed(void);
 void dRandSetSeed (unsigned long s);
 int dRandInt (int n);
 dReal dRandReal(void);
-void dPrintMatrix (const dReal *A, int n, int m, const char *fmt, FILE *f);
+//void dPrintMatrix (const dReal *A, int n, int m, const char *fmt, FILE *f);
 void dMakeRandomVector (dReal *A, int n, dReal range);
 void dMakeRandomMatrix (dReal *A, int n, int m, dReal range);
 void dClearUpperTriangle (dReal *A, int n);
@@ -539,7 +543,6 @@ dReal dMaxDifference (const dReal *A, const dReal *B, int n, int m);
 dReal dMaxDifferenceLowerTriangle (const dReal *A, const dReal *B, int n);
 ]])
 --====================================================================
-
 
 --====================================================================
 -- threading.h --typdef
@@ -615,7 +618,6 @@ typedef struct dxThreadingFunctionsInfo
 ]])
 --====================================================================
 
-
 --====================================================================
 -- threading_impl.h
 --====================================================================
@@ -640,9 +642,6 @@ void dThreadingThreadPoolWaitIdleState(dThreadingThreadPoolID pool);
 void dThreadingFreeThreadPool(dThreadingThreadPoolID pool);
 ]])
 --====================================================================
-
-
-
 
 --====================================================================
 -- object.h
@@ -1375,15 +1374,117 @@ void dGeomTriMeshDataUpdate(dTriMeshDataID g);
 --====================================================================
 ffi.cdef(
 [[
-void dWorldExportDIF (dWorldID w, FILE *file, const char *world_name);
+//void dWorldExportDIF (dWorldID w, FILE *file, const char *world_name);
+void dWorldExportDIF (dWorldID w, void *file, const char *world_name);
 ]])
 --====================================================================
 
+--====================================================================
+-- odemaht.ffi
+--====================================================================
+ffi.cdef(
+[[
+//====================================================================
+dReal _dRecip(dReal x);
+dReal _dSqrt(dReal x);
+dReal _dRecipSqrt(dReal x);
+dReal _dSin(dReal x);
+dReal _dCos(dReal x);
+dReal _dFabs(dReal x);
+dReal _dAtan2(dReal y,dReal x);
+dReal _dAcos(dReal x);
+dReal _dFMod(dReal a,dReal b);
+dReal _dFloor(dReal x);
+dReal _dCeil(dReal x);
+dReal _dCopySign(dReal a,dReal b);
+dReal _dNextAfter(dReal x, dReal y);
+dReal _dIsNan(dReal x);
+//====================================================================
+bool _dVALIDVEC3(dVector3 v); 
+bool _dVALIDVEC4(dVector4 v); 
+bool _dVALIDMAT3(dMatrix3 m); 
+bool _dVALIDMAT4(dMatrix4 m); 
+//====================================================================
+// function pointer
+void  ( *_dAddVectors3             )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dSubtractVectors3        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dAddScaledVectors3       )(dReal *res, const dReal *a, const dReal *b, dReal a_scale, dReal b_scale);
+void  ( *_dScaleVector3            )(dReal *res, dReal nScale);
+void  ( *_dNegateVector3           )(dReal *res);
+void  ( *_dCopyVector3             )(dReal *res, const dReal *a);
+void  ( *_dCopyScaledVector3       )(dReal *res, const dReal *a, dReal nScale);
+void  ( *_dCopyNegatedVector3      )(dReal *res, const dReal *a);
+void  ( *_dCopyVector4             )(dReal *res, const dReal *a);
+void  ( *_dCopyMatrix4x4           )(dReal *res, const dReal *a);
+void  ( *_dCopyMatrix4x3           )(dReal *res, const dReal *a);
+void  ( *_dGetMatrixColumn3        )(dReal *res, const dReal *a, unsigned n);
+dReal ( *_dCalcVectorLength3       )(const dReal *a);
+dReal ( *_dCalcVectorLengthSquare3 )(const dReal *a);
+dReal ( *_dCalcPointDepth3         )(const dReal *test_p, const dReal *plane_p, const dReal *plane_n);
+dReal ( *_dCalcVectorDot3_13       )(const dReal *a, const dReal *b) ;
+dReal ( *_dCalcVectorDot3_31       )(const dReal *a, const dReal *b) ;
+dReal ( *_dCalcVectorDot3_33       )(const dReal *a, const dReal *b) ;
+dReal ( *_dCalcVectorDot3_14       )(const dReal *a, const dReal *b) ;
+dReal ( *_dCalcVectorDot3_41       )(const dReal *a, const dReal *b) ;
+dReal ( *_dCalcVectorDot3_44       )(const dReal *a, const dReal *b) ;
+void  ( *_dCalcVectorCross3_114    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_141    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_144    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_411    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_414    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_441    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dCalcVectorCross3_444    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dAddVectorCross3         )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dSubtractVectorCross3    )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dSetCrossMatrixPlus      )(dReal *res, const dReal *a, unsigned skip);
+void  ( *_dSetCrossMatrixMinus     )(dReal *res, const dReal *a, unsigned skip);
+dReal ( *_dCalcPointsDistance3     )(const dReal *a, const dReal *b);
+void  ( *_dMultiplyHelper0_331     )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyHelper1_331     )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyHelper0_133     )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyHelper1_133     )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply0_331           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply1_331           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply0_133           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply0_333           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply1_333           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiply2_333           )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd0_331        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd1_331        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd0_133        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd0_333        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd1_333        )(dReal *res, const dReal *a, const dReal *b);
+void  ( *_dMultiplyAdd2_333        )(dReal *res, const dReal *a, const dReal *b);
+dReal ( *_dCalcMatrix3Det          )( const dReal* mat );
+dReal ( *_dInvertMatrix3           )(dReal *dst, const dReal *ma);
+//====================================================================
+dReal P_dCalcVectorDot3_ (const dReal *a, const dReal *b, unsigned step_a, unsigned step_b);
+dReal _dCalcVectorDot3_  (const dReal *a, const dReal *b);
+void  P_dCalcVectorCross3(dReal *res, const dReal *a, const dReal *b, unsigned step_res, unsigned step_a, unsigned step_b);
+void  _dCalcVectorCross3_(dReal *res, const dReal *a, const dReal *b);
+
+//====================================================================
+void _dTimerReport(const char* filePath,const char* fileOpenMode, int average);
+void _dWorldExportDIF(dWorldID w,const char* prefix, const char* filePath, const char* FileOpenMode );
+
+// test
+//====================================================================
+typedef struct
+{
+    FILE* fp;
+}FileOBJ;
+//====================================================================
+void FileOBJ_Open(FileOBJ* fpo,const char* filePath, const char* fileOpenMode);
+bool FileOBJ_Close(FileOBJ* fpo);
+
+]])
+
+
+--====================================================================
 if ( USE_ODE_DOUBLE ==true )
 then
     return  ffi.load("ode_double.dll");
 else
-    print("call-single")
     return  ffi.load("ode_single.dll");
 end
 --====================================================================

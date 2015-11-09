@@ -7,12 +7,6 @@ local ds  = require "drawstuff"
 --====================================================================
 -- for ode state save (not working)
 --====================================================================
-ffi.cdef(
-[[
-    FILE * fopen ( const char * filename, const char * mode );
-    int fclose ( FILE * stream );    
-]])
---====================================================================
 
 --====================================================================
 local LENGTH =0.7    -- chassis length
@@ -219,13 +213,8 @@ function command (cmd)
         --============================================================
     elseif (cmd == string.byte'1' )
     then 
-        -- local file  = ffi.C.fopen ("state.dif","wt");
-        -- if ( file ~= nil )
-        -- then 
-        --     ode.dWorldExportDIF (world,file,"");
-        -- end 
-        -- ffi.C.fclose (file);
-        -- print("save file as state.dif");
+        ode._dWorldExportDIF(world,"","state.dif", "wt");
+        print("save file as state.dif");
         --============================================================
     end
 end 

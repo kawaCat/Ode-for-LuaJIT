@@ -251,11 +251,11 @@ function drawGeom ( g,pos, R, show_aabb)
         --============================================================
         local actual_pos = ffi.new("dVector3[1]"); -- dReal[3]
         local actual_R = ffi.new("dMatrix3[1]");   -- dReal[12]
-        dMultiply0_331 (actual_pos[0],R,pos2);
+        ode._dMultiply0_331 (actual_pos[0],R,pos2);
         actual_pos[0][0] = actual_pos[0][0]+pos[0];
         actual_pos[0][1] = actual_pos[0][1]+pos[1];
         actual_pos[0][2] = actual_pos[0][2]+pos[2];
-        dMultiply0_333 (actual_R[0],R,R2);
+        ode._dMultiply0_333 (actual_R[0],R,R2);
         drawGeom (g2,actual_pos[0],actual_R[0],0);
         --============================================================
     end
@@ -308,12 +308,8 @@ function simLoop(pause)
     --================================================================
     if (write_world == true)
     then 
-        -- local f2 = ffi.C.fopen ("state.dif","wt");
-        -- if (f2 ~=nil) 
-        -- then 
-        --     ode.dWorldExportDIF (world,f2,"");
-        -- end 
-        -- ffi.C.fclose (f2)
+        ode._dWorldExportDIF(world,"","state.dif", "wt");
+        print("save file as state.dif");
         write_world = false;
     end 
 
@@ -788,7 +784,8 @@ function main ()
 end
 --====================================================================
 
--- from odemath.h. (has not export func) 
+
+-- from odemath.h. (has not export func) --> have exported dll
 --====================================================================
 function _dCalcVectorDot3(a, b, step_a,step_b)
   return a[0] * b[0] + a[step_a] * b[step_b] + a[2 * step_a] * b[2 * step_b];
@@ -838,18 +835,16 @@ function dMultiplyHelper0_133(res,a,b)
     dMultiplyHelper1_331(res, b, a);
 end
 --====================================================================
-function dMultiply0_331_func(res, a, b)
+function dMultiply0_331(res, a, b)
     dMultiplyHelper0_331(res, a, b);
 end  
 --====================================================================
-function dMultiply0_333_func(res,a,b)
+function dMultiply0_333(res,a,b)
     dMultiplyHelper0_133(res + 0, a + 0, b);
     dMultiplyHelper0_133(res + 4, a + 4, b);
     dMultiplyHelper0_133(res + 8, a + 8, b);
 end
 --====================================================================
-dMultiply0_331 = dMultiply0_331_func
-dMultiply0_333 = dMultiply0_333_func
 
 --====================================================================
 main ()

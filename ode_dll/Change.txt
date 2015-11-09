@@ -1,0 +1,15 @@
+﻿
+for export function which defined in odemath.h .
+
+changed:
+
+1. add "ode/include/ode/odemath_ffi.h"
+
+2. add "#include <ode/odemath_ffi.h>" to "ode/src/odemath.cpp" end line.
+
+compile option on mingw:
+add link option.  
+
+    "-static-libgcc"
+    "-static-libstdc++"
+    

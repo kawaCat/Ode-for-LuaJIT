@@ -32,9 +32,9 @@ function createCard()
         self.geom = ode.dCreateBox(space, self.sides[0], self.sides[1], self.sides[2]);
         ode.dGeomSetBody(self.geom, self.body);
         
-        --set userdata
+        --if userdata
         --============================================================
-        local userdata = ffi.new("dReal[4]");
+        local userdata = ffi.new("dReal[4]"); -- should use struct
         userdata[0] =12345  --test ID 
         userdata[1] =4      --array size
         userdata[2] =100+10 --,
@@ -42,9 +42,6 @@ function createCard()
         --============================================================
         local voidp = ffi.cast("void *",userdata);
         ode.dGeomSetData(self.geom, voidp );
-        --============================================================
-        -- userdata_ =  ffi.cast("dReal*",voidp);
-        -- print (self,voidp,userdata_[0][0])
         --============================================================
         local  mass = ffi.new("dMass[1]");
         ode.dMassSetBox(mass,1, self.sides[0], self.sides[1], self.sides[2]);
@@ -160,8 +157,7 @@ function nearCallback (data, o1, o2)
     local b1 = ode.dGeomGetBody(o1);
     local b2 = ode.dGeomGetBody(o2);
     
-    
-    -- get userdata
+    -- if userdata
     --================================================================
     -- local voidp = ode.dGeomGetData(o1);
     -- userdata_ =  ffi.cast("dReal*",voidp);

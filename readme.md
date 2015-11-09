@@ -4,7 +4,6 @@ openDynamics をLuaJITで使うための ffi です。<br>
 中身は.hファイルのODE_API でEXPORTされてある関数をコピペしました。
 
 - すべての関数が使えるかは未確認です。
-- ``odemath.h`` 内の関数はエクスポートされていないので必要に応じて準備する必要がある。
 - openDynamicsのdemoアプリを比較してみたところ、誤差があるようなので正確さが必要な場合は向いてないようです。
 
 drawstuff.dll、ode_double.dllはmingwでコンパイルしています。

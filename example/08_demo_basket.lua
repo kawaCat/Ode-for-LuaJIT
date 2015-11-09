@@ -48,7 +48,6 @@ do
 end 
 --====================================================================
 
-
 --====================================================================
 function start()
     --================================================================
@@ -142,7 +141,8 @@ function simLoop (pause)
     local dt = ds.dsElapsedTime();
     --================================================================
     --local nrofsteps = math.floor( ffi.C.ceilf(dt/simstep));
-    local nrofsteps = math.floor( (dt/simstep+0.5));
+    local nrofsteps = math.floor(ode._dCeil(dt/simstep));
+    --local nrofsteps = math.floor( (dt/simstep+0.5));
     --================================================================
     if ( pause ==0)
     then 
@@ -267,6 +267,7 @@ function main ()
     ode.dSpaceDestroy (space);
     ode.dWorldDestroy (world);
     ode.dCloseODE();
+    
 end
 --====================================================================
 main ()

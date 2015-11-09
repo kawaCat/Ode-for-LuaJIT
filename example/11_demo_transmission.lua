@@ -33,27 +33,6 @@ local sin = math.sin
 --====================================================================
 local t = 0;
 
--- from odemath.h. (has not export func)
---====================================================================
-function dSubtractVectors3(a,b)
-    local res ={}
-    res[0] = a[0] - b[0];
-    res[1] = a[1] - b[1];
-    res[2] = a[2] - b[2];
-    return res;
-end
---====================================================================
-function dCalcVectorLength3(a)
-    return math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
-end
---====================================================================
-function dCalcPointsDistance3(a,b)
-    local tmp = dSubtractVectors3( a,b);
-    local res = dCalcVectorLength3(tmp);
-    return res;
-end
---====================================================================
-
 --====================================================================
 function setup()
     
@@ -331,9 +310,9 @@ function simLoop(pause)
     -- c_1[0][2]:-- z
 
     ds.dsSetColorAlpha(1, 0, 0, 0.5);
-    ds.dsDrawCylinderD(a_1[0], R_1, 0.05, dCalcPointsDistance3(c_1[0], a_1[0]));
+    ds.dsDrawCylinderD(a_1[0], R_1, 0.05, ode._dCalcPointsDistance3(c_1[0], a_1[0]));
     ds.dsSetColorAlpha(0, 1, 0, 0.5);
-    ds.dsDrawCylinderD(a_2[0], R_2, 0.05, dCalcPointsDistance3(c_2[0], a_2[0]));
+    ds.dsDrawCylinderD(a_2[0], R_2, 0.05, ode._dCalcPointsDistance3(c_2[0], a_2[0]));
 
     ds.dsSetColorAlpha(1, 0, 0, 0.5);
     ds.dsDrawSphereD (c_1[0], R_1, 0.05);

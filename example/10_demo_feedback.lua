@@ -108,7 +108,7 @@ function drawGeom ( g)
 end
 --====================================================================
 
--- from odemath.h. (has not export func)
+-- from odemath.h.
 function dCalcVectorLength3(a)
     return math.sqrt((a[0] * a[0]) + (a[1] * a[1]) + (a[2] * a[2]));
 end
@@ -123,8 +123,10 @@ function inspectJoints()
         if ( ode.dJointGetBody(hinges[i], 0) ~=nil)
         then
             -- This joint has not snapped already... inspect it.
-            local l0 = dCalcVectorLength3(jfeedbacks[i].f1);
-            local l1 = dCalcVectorLength3(jfeedbacks[i].f2);
+            -- local l0 = dCalcVectorLength3(jfeedbacks[i].f1);
+            -- local l1 = dCalcVectorLength3(jfeedbacks[i].f2);
+            local l0 = ode._dCalcVectorLength3(jfeedbacks[i].f1);
+            local l1 = ode._dCalcVectorLength3(jfeedbacks[i].f2);
             colours[i+0] = 0.95*colours[i+0] + 0.05 * l0/forcelimit;
             colours[i+1] = 0.95*colours[i+1] + 0.05 * l1/forcelimit;
             --========================================================
